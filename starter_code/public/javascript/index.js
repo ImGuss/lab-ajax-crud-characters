@@ -1,23 +1,37 @@
-const charactersAPI = new APIHandler("http://ih-api.herokuapp.com")
+const minion = new APIHandler("http://ih-api.herokuapp.com");
 
 $(document).ready( () => {
-  $('#fetch-all').on('click', (e) => {
+  $('#fetch-all').on('click', (event) => {
+    event.preventDefault();
+    minion.getFullList();
+  });
 
-  })
+  $('#fetch-one').on('click', (event) => {
+    event.preventDefault();
+    minion.getOneRegister();
+  });
 
-  $('#fetch-one').on('click', (e) => {
+  $('#delete-one').on('click', (event) => {
+    event.preventDefault();
+    minion.deleteOneRegister();
+  });
 
-  })
+  $('#edit-character-form').on('submit', (event) => {
+    event.preventDefault();
+    minion.updateOneRegister();
+  });
 
-  $('#delete-one').on('click', (e) => {
+  $('#new-character-form').on('submit', (event) => {
+    event.preventDefault();
+    minion.createOneRegister();
+  });
 
-  })
-
-  $('#edit-character-form').on('submit', (e) => {
-
-  })
-
-  $('#new-character-form').on('submit', (e) => {
-
-  })
-})
+  setInterval( () => {
+    $.ajax({
+      method: 'GET',
+      url: 'https://ih-api.herokuapp.com/characters/',
+      success: minion.loadList,
+      error: minion.handleError
+    });
+  }, 500);
+});
